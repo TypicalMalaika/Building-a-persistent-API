@@ -1,0 +1,19 @@
+const { printQueryResults } = require('./utils');
+const sqlite = require('sqlite3');
+
+const db = new sqlite.Database('./db.sqlite');
+
+const ids = [1, 25, 45, 100, 360, 382];
+// your code below:
+for (let i = 0; i < ids.length; i++){
+  console.log(ids[i]);
+  db.get(
+    `SELECT * FROM TemperatureData WHERE id = $placeholder`, 
+    {
+      $placeholder: ids[i]
+    },
+    (err, row) => {
+      printQueryResults(row);
+    }
+  )
+};
