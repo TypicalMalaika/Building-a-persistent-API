@@ -1,0 +1,116 @@
+//Log error to console
+const db = require('./db');
+db.get(`SELECT traffic FROM TrainStation WHERE station_id=38 AND month='July'` , (err, row) => {
+  console.log(row.traffic);
+});
+
+//Create new empty table called city
+const db = require('./db');
+db.run('CREATE TABLE City')
+
+//Retrieve a single value
+const db = require('./db');
+db.get("SELECT superpower FROM Superhero WHERE id=12", (err, row) => {
+  console.log(row.superpower);
+});
+
+//Conditional error logging
+const db = require('./db');
+db.all('SELECT * from NonexistentTable', (err, rows) => {
+  if (!err) {
+    console.log(NonexistentTable.rows)
+  } else {
+    console.log(err)
+  }
+});
+
+//Log TotalPrice after it has been accumulated
+const db = require('./db');
+let totalPrice = 0;
+db.each("SELECT price FROM Clothing WHERE item='shirt'", (err, row) => {
+  totalPrice += Number(row.price);
+}, (err, numRows) => {
+  console.log(totalPrice);
+});
+
+//Run synchrunously
+const db = require('./db');
+db.serialize(() => {
+  db.run('CREATE TABLE Popcorn (id INTEGER PRIMARY KEY, type TEXT)');
+  db.run('INSERT INTO POPCORN (type) VALUES ("cheddar")');
+  db.run('INSERT INTO POPCORN (type) VALUES ("kettle corn")');
+})
+
+//Quantity of a single value
+const db = require('./db');
+db.get("SELECT quantity FROM SpiceRack WHERE name='paprika'", (err, row) => {
+  console.log(row.quantity);
+});
+
+//Manipukating databases
+const selectByGenre = genre => {
+  db.all("SELECT title FROM Song WHERE genre=$genre", { $genre: genre });
+}
+
+const db = require('./db');
+db.all("SELECT * FROM Scientist WHERE field='biology'", (err, rows) => {
+  console.log(rows);
+});
+
+const db = require('./db');
+db.each("SELECT * FROM CartoonCharacter WHERE species='mouse'", (err, row) => {
+  console.log(row.height);
+});
+
+const db = require('./db');
+db.get(`SELECT traffic FROM TrainStation WHERE station_id=38 AND month='July'` , (err, row) => {
+  console.log(row.traffic);
+});
+
+const db = require('./db');
+const logFloorsForAddress = address => {
+ db.get(`SELECT number_of_floor FROM Building WHERE address = $address`, {
+   $address = address
+ }, (err, row) => {
+   console.log(row.num_of_floors)
+ }) 
+}
+
+const db = require('./db');
+db.each("SELECT * FROM Minifridge WHERE type='soda'", (err, row) => {
+  console.log(row.name);
+});
+
+const db = require('./db');
+db.run("INSERT INTO Holiday (name, work) VALUES ('Codecademy Day', false);");
+
+//Drop and create tables using serialize
+const db = require('./db');
+db.serialize(() => {
+  db.run("DROP TABLE IF EXISTS Furniture;");
+  db.run("CREATE TABLE Furniture");
+});
+
+//Introducing user input
+const db = require('./db');
+const logCaffeineLevel = name => {
+  db.get("SELECT * FROM Tea WHERE name=$name;", { $name: name }, (err, row) => {
+    console.log(row.caffeine_level);
+  })
+}
+
+//Insert into existing table
+const db = require('./db');
+db.run("INSERT INTO Bridge (name, established_year) VALUES ('Brooklyn Bridge', 1883);");
+
+const db = require('./db');
+db.run("INSERT INTO BirdOfParadise (scientific_name, common_name) VALUES ('Cicinnurus regius', 'king bird-of-paradise');");
+
+const db = require('./db');
+const addMovie = (title, publicationYear, director) => {
+	db.run('INSERT INTO Movie (title, publication_year, director) VALUES ($title, $pubYear, $director)', {
+    $title: title,
+    $pubYear: publicationYear,
+    $director: director
+  });
+};
